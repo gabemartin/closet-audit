@@ -207,6 +207,16 @@ const {
           }
         });
       }
+
+      const footer = document.querySelector("footer");
+      if (footer instanceof HTMLElement && window.visualViewport) {
+        const updateFooterVisibility = () => {
+          const keyboardOpen =
+            window.visualViewport!.height < window.innerHeight * 0.75;
+          footer.hidden = keyboardOpen;
+        };
+        window.visualViewport.addEventListener("resize", updateFooterVisibility);
+      }
     </script>
   </body>
 </html>
