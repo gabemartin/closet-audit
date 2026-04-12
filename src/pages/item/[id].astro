@@ -1,6 +1,7 @@
 ---
 import Base from "../../layouts/Base.astro";
 import { items, getCloset } from "../../data/mock";
+import { withBase } from "../../lib/paths";
 
 export function getStaticPaths() {
   return items.map((item) => ({
@@ -15,7 +16,7 @@ const closet = getCloset(item.closetId);
 
 <Base title={`${item.title} — Closet Audit`}>
   <div class="max-w-5xl mx-auto px-4 py-10">
-    <a href="/browse" class="inline-flex items-center gap-1 text-sm text-muted hover:text-charcoal transition-colors mb-6">
+    <a href={withBase("/browse")} class="inline-flex items-center gap-1 text-sm text-muted hover:text-charcoal transition-colors mb-6">
       <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
         <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
       </svg>
@@ -85,7 +86,7 @@ const closet = getCloset(item.closetId);
 
         <!-- Closet owner -->
         {closet && (
-          <a href={`/closet/${closet.id}`} class="mt-8 p-4 rounded-card border border-border bg-white flex items-center gap-3 hover:shadow-sm transition-shadow">
+          <a href={withBase(`/closet/${closet.id}`)} class="mt-8 p-4 rounded-card border border-border bg-white flex items-center gap-3 hover:shadow-sm transition-shadow">
             <span class="w-10 h-10 rounded-full bg-sage-light text-sage-dark flex items-center justify-center text-sm font-bold">
               {closet.avatar}
             </span>
@@ -112,7 +113,7 @@ const closet = getCloset(item.closetId);
               ))}
               {closet.rules.length > 3 && (
                 <li class="text-xs text-sage-dark font-medium">
-                  +{closet.rules.length - 3} more — <a href={`/closet/${closet.id}`} class="underline">view all</a>
+                  +{closet.rules.length - 3} more — <a href={withBase(`/closet/${closet.id}`)} class="underline">view all</a>
                 </li>
               )}
             </ul>

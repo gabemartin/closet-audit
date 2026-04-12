@@ -1,6 +1,7 @@
 ---
 import Base from "../../layouts/Base.astro";
 import { closets, getItemsByCloset, conversations } from "../../data/mock";
+import { withBase } from "../../lib/paths";
 
 export function getStaticPaths() {
   return closets.map((closet) => ({
@@ -13,7 +14,9 @@ const { closet } = Astro.props;
 const closetItems = getItemsByCloset(closet.id);
 const availableCount = closetItems.filter((i) => i.available).length;
 const existingConv = conversations.find((c) => c.withClosetId === closet.id);
-const messageHref = existingConv ? `/messages?conv=${existingConv.id}` : `/messages`;
+const messageHref = existingConv
+  ? withBase(`/messages?conv=${existingConv.id}`)
+  : withBase("/messages");
 ---
 
 <Base title={`${closet.name} — Closet Audit`}>
@@ -79,7 +82,7 @@ const messageHref = existingConv ? `/messages?conv=${existingConv.id}` : `/messa
     <!-- Item grid (IG-style 3 column) -->
     <div class="grid grid-cols-3 gap-1 sm:gap-2">
       {closetItems.map((item) => (
-        <a href={`/item/${item.id}`} class="group relative aspect-square overflow-hidden rounded-sm bg-border/40">
+        <a href={withBase(`/item/${item.id}`)} class="group relative aspect-square overflow-hidden rounded-sm bg-border/40">
           <img
             src={item.images[0]}
             alt={item.title}

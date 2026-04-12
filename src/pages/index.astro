@@ -1,6 +1,7 @@
 ---
 import Base from "../layouts/Base.astro";
 import { items, closets, communities } from "../data/mock";
+import { withBase } from "../lib/paths";
 
 const featured = items.filter((i) => i.available).slice(0, 4);
 const topClosets = closets.slice(0, 4);
@@ -23,13 +24,13 @@ const topCommunities = communities.slice(0, 3);
       </p>
       <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-3">
         <a
-          href="/browse"
+          href={withBase("/browse")}
           class="w-full sm:w-auto px-8 py-3.5 text-sm font-semibold text-white bg-charcoal hover:bg-charcoal/90 rounded-button transition-colors"
         >
           Browse Rentals
         </a>
         <a
-          href="/start"
+          href={withBase("/start")}
           class="w-full sm:w-auto px-8 py-3.5 text-sm font-semibold text-charcoal bg-white border border-border hover:border-charcoal/20 rounded-button transition-colors"
         >
           List Your Closet
@@ -67,7 +68,7 @@ const topCommunities = communities.slice(0, 3);
           <h2 class="font-display font-bold text-2xl sm:text-3xl">Just listed</h2>
           <p class="mt-1 text-sm text-muted">Fresh pieces available to rent right now</p>
         </div>
-        <a href="/browse" class="text-sm font-semibold text-sage-dark hover:text-sage transition-colors">
+        <a href={withBase("/browse")} class="text-sm font-semibold text-sage-dark hover:text-sage transition-colors">
           See all &rarr;
         </a>
       </div>
@@ -75,7 +76,7 @@ const topCommunities = communities.slice(0, 3);
         {featured.map((item) => {
           const closet = closets.find((c) => c.id === item.closetId);
           return (
-            <a href={`/item/${item.id}`} class="group">
+            <a href={withBase(`/item/${item.id}`)} class="group">
               <div class="relative aspect-[3/4] rounded-card overflow-hidden bg-border/40">
                 <img
                   src={item.images[0]}
@@ -115,7 +116,7 @@ const topCommunities = communities.slice(0, 3);
     </div>
     <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
       {topClosets.map((c) => (
-        <a href={`/closet/${c.id}`} class="block p-5 rounded-card border border-border bg-white hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 text-center">
+        <a href={withBase(`/closet/${c.id}`)} class="block p-5 rounded-card border border-border bg-white hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 text-center">
           <span class="inline-flex w-14 h-14 rounded-full bg-sage-light text-sage-dark items-center justify-center text-lg font-display font-bold mb-3">
             {c.avatar}
           </span>
@@ -139,7 +140,7 @@ const topCommunities = communities.slice(0, 3);
         Closet Audit gives you real listings, real availability, and real tracking — not a grid of posts and a DM inbox.
       </p>
       <a
-          href="/start"
+          href={withBase("/start")}
           class="inline-block mt-8 px-8 py-3.5 text-sm font-semibold bg-sage hover:bg-sage-dark rounded-button transition-colors"
       >
         Start Your Closet

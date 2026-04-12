@@ -1,5 +1,6 @@
 import { useState } from "react";
 import type { Item, Closet } from "../data/mock";
+import { withBase } from "../lib/paths";
 
 interface Props {
   items: Item[];
@@ -115,7 +116,7 @@ export default function BrowseGrid({ items, closets, categories, occasions }: Pr
           {filtered.map((item) => {
             const closet = closetMap[item.closetId];
             return (
-              <a key={item.id} href={`/item/${item.id}`} className="group">
+              <a key={item.id} href={withBase(`/item/${item.id}`)} className="group">
                 <div className="relative aspect-[3/4] rounded-[var(--radius-card)] overflow-hidden bg-[var(--color-border)]/40">
                   <img
                     src={item.images[0]}

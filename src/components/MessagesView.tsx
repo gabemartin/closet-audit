@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import type { Conversation, Closet, Item, Message } from "../data/mock";
+import { withBase } from "../lib/paths";
 
 type ConversationWithDetails = Conversation & { closet: Closet; item?: Item };
 
@@ -171,7 +172,7 @@ export default function MessagesView({ conversations, allMessages, initialConver
                   <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
                 </svg>
               </button>
-              <a href={`/closet/${activeConv.closet.id}`} className="flex items-center gap-3 flex-1 min-w-0 group">
+              <a href={withBase(`/closet/${activeConv.closet.id}`)} className="flex items-center gap-3 flex-1 min-w-0 group">
                 <span className="w-9 h-9 rounded-full bg-sage-light text-sage-dark flex items-center justify-center text-xs font-display font-bold shrink-0">
                   {activeConv.closet.avatar}
                 </span>
@@ -186,7 +187,7 @@ export default function MessagesView({ conversations, allMessages, initialConver
               </a>
               {activeConv.item && (
                 <a
-                  href={`/item/${activeConv.item.id}`}
+                  href={withBase(`/item/${activeConv.item.id}`)}
                   className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-button bg-sage-light/40 hover:bg-sage-light transition-colors text-xs text-sage-dark font-medium shrink-0"
                 >
                   <span className="w-6 h-6 rounded overflow-hidden bg-border/40 shrink-0">
@@ -200,7 +201,7 @@ export default function MessagesView({ conversations, allMessages, initialConver
             {/* Item context banner */}
             {activeConv.item && (
               <a
-                href={`/item/${activeConv.item.id}`}
+                href={withBase(`/item/${activeConv.item.id}`)}
                 className="flex sm:hidden items-center gap-3 px-4 py-2.5 border-b border-border bg-sage-light/10 hover:bg-sage-light/20 transition-colors"
               >
                 <span className="w-10 h-10 rounded-lg overflow-hidden bg-border/40 shrink-0">

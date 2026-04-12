@@ -1,5 +1,6 @@
 ---
 import Base from "../layouts/Base.astro";
+import { withBase } from "../lib/paths";
 ---
 
 <Base title="How It Works — Closet Audit">
@@ -73,13 +74,13 @@ import Base from "../layouts/Base.astro";
       <h2 class="font-display font-bold text-2xl">Ready to ditch the DMs?</h2>
       <div class="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3">
         <a
-          href="/browse"
+          href={withBase("/browse")}
           class="px-8 py-3.5 text-sm font-semibold text-white bg-charcoal hover:bg-charcoal/90 rounded-button transition-colors"
         >
           Browse Rentals
         </a>
         <a
-          href="/start"
+          href={withBase("/start")}
           class="px-8 py-3.5 text-sm font-semibold text-charcoal bg-white border border-border hover:border-charcoal/20 rounded-button transition-colors"
         >
           Start Your Closet

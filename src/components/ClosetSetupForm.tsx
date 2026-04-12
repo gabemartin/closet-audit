@@ -1,4 +1,5 @@
 import { useState, type FormEvent } from "react";
+import { withBase } from "../lib/paths";
 
 const COMMON_RULES = [
   "Return within 2 days of rental date",
@@ -457,13 +458,13 @@ export default function ClosetSetupForm() {
 
         <div className="mt-8 flex flex-col sm:flex-row justify-center gap-3">
           <a
-            href="/list"
+            href={withBase("/list")}
             className="px-8 py-3 text-sm font-semibold text-white bg-sage hover:bg-sage-dark rounded-button transition-colors"
           >
             List Your First Item
           </a>
           <a
-            href="/browse"
+            href={withBase("/browse")}
             className="px-8 py-3 text-sm font-semibold text-charcoal bg-white border border-border hover:border-charcoal/20 rounded-button transition-colors"
           >
             Browse Items

@@ -1,4 +1,5 @@
 import { useState, type FormEvent } from "react";
+import { withBase } from "../lib/paths";
 
 const categories = [
   "dresses",
@@ -65,7 +66,7 @@ export default function ListItemForm() {
             List another
           </button>
           <a
-            href="/browse"
+            href={withBase("/browse")}
             className="px-6 py-2.5 text-sm font-semibold text-[var(--color-charcoal)] bg-white border border-[var(--color-border)] hover:border-[var(--color-charcoal)]/20 rounded-[var(--radius-button)] transition-colors"
           >
             Browse items

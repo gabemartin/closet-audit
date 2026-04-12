@@ -1,6 +1,7 @@
 ---
 import Base from "../../layouts/Base.astro";
 import { communities } from "../../data/mock";
+import { withBase } from "../../lib/paths";
 
 const typeLabels: Record<string, string> = {
   sorority: "Greek Life",
@@ -35,7 +36,7 @@ const grouped = communities.reduce(
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {list.map((c) => (
             <a
-              href={`/communities/${c.id}`}
+              href={withBase(`/communities/${c.id}`)}
               class="block p-6 rounded-card border border-border bg-white hover:shadow-md hover:-translate-y-0.5 transition-all duration-200"
             >
               <div class="flex items-center gap-3 mb-3">
