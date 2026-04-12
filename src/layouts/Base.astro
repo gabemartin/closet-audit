@@ -1,0 +1,88 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "Closet Audit",
+  description = "Share and borrow clothes with your local community",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <title>{title}</title>
+  </head>
+  <body class="min-h-screen flex flex-col">
+    <nav class="sticky top-0 z-50 bg-cream/80 backdrop-blur-md border-b border-border">
+      <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+        <a href="/" class="flex items-center gap-2 group">
+          <span class="w-8 h-8 rounded-full bg-sage flex items-center justify-center text-white font-display font-bold text-sm">
+            CA
+          </span>
+          <span class="font-display font-bold text-lg text-charcoal group-hover:text-sage-dark transition-colors">
+            Closet Audit
+          </span>
+        </a>
+
+        <div class="hidden sm:flex items-center gap-6 text-sm font-medium">
+          <a href="/browse" class="text-muted hover:text-charcoal transition-colors">Browse</a>
+          <a href="/communities" class="text-muted hover:text-charcoal transition-colors">Communities</a>
+          <a href="/how-it-works" class="text-muted hover:text-charcoal transition-colors">How It Works</a>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <a
+            href="/list"
+            class="hidden sm:inline-flex items-center gap-1.5 px-4 py-2 text-sm font-semibold text-white bg-sage hover:bg-sage-dark rounded-button transition-colors"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+            </svg>
+            List Item
+          </a>
+          <button
+            class="w-9 h-9 rounded-full bg-lavender-light text-lavender flex items-center justify-center text-sm font-bold hover:ring-2 hover:ring-lavender/40 transition"
+            aria-label="Profile"
+          >
+            G
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <main class="flex-1">
+      <slot />
+    </main>
+
+    <footer class="border-t border-border bg-warm-white">
+      <div class="max-w-6xl mx-auto px-4 py-10">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+          <div>
+            <p class="font-display font-bold text-charcoal">Closet Audit</p>
+            <p class="text-sm text-muted mt-1">Share more. Buy less. Look great.</p>
+          </div>
+          <div class="flex gap-6 text-sm text-muted">
+            <a href="/about" class="hover:text-charcoal transition-colors">About</a>
+            <a href="/how-it-works" class="hover:text-charcoal transition-colors">How It Works</a>
+            <a href="/communities" class="hover:text-charcoal transition-colors">Communities</a>
+          </div>
+        </div>
+        <p class="mt-8 text-xs text-muted/60">&copy; {new Date().getFullYear()} Closet Audit. Built for communities that share.</p>
+      </div>
+    </footer>
+  </body>
+</html>

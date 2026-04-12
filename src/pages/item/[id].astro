@@ -1,0 +1,96 @@
+---
+import Base from "../../layouts/Base.astro";
+import { items } from "../../data/mock";
+
+export function getStaticPaths() {
+  return items.map((item) => ({
+    params: { id: item.id },
+    props: { item },
+  }));
+}
+
+const { item } = Astro.props;
+---
+
+<Base title={`${item.title} — Closet Audit`}>
+  <div class="max-w-5xl mx-auto px-4 py-10">
+    <a href="/browse" class="inline-flex items-center gap-1 text-sm text-muted hover:text-charcoal transition-colors mb-6">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+      </svg>
+      Back to browse
+    </a>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
+      <!-- Image -->
+      <div class="aspect-[4/5] rounded-card overflow-hidden bg-border/40">
+        <img
+          src={item.images[0]}
+          alt={item.title}
+          class="w-full h-full object-cover"
+        />
+      </div>
+
+      <!-- Details -->
+      <div class="flex flex-col">
+        <div class="flex items-center gap-2 mb-3">
+          <span class="px-2 py-0.5 text-xs font-medium rounded-pill bg-sage-light text-sage-dark capitalize">
+            {item.category}
+          </span>
+          {item.available ? (
+            <span class="px-2 py-0.5 text-xs font-medium rounded-pill bg-green-100 text-green-700">Available</span>
+          ) : (
+            <span class="px-2 py-0.5 text-xs font-medium rounded-pill bg-red-50 text-red-500">Currently out</span>
+          )}
+        </div>
+
+        <h1 class="font-display font-bold text-2xl sm:text-3xl">{item.title}</h1>
+        <p class="mt-4 text-muted leading-relaxed">{item.description}</p>
+
+        <div class="mt-6 grid grid-cols-3 gap-4">
+          <div class="p-3 rounded-xl bg-warm-white border border-border text-center">
+            <p class="text-xs text-muted">Size</p>
+            <p class="font-semibold mt-0.5">{item.size}</p>
+          </div>
+          <div class="p-3 rounded-xl bg-warm-white border border-border text-center">
+            <p class="text-xs text-muted">Color</p>
+            <p class="font-semibold mt-0.5">{item.color}</p>
+          </div>
+          <div class="p-3 rounded-xl bg-warm-white border border-border text-center">
+            <p class="text-xs text-muted">Condition</p>
+            <p class="font-semibold mt-0.5 capitalize">{item.condition}</p>
+          </div>
+        </div>
+
+        <div class="mt-6 flex flex-wrap gap-1.5">
+          {item.tags.map((tag) => (
+            <span class="px-2.5 py-1 text-xs rounded-pill bg-border/60 text-muted">{tag}</span>
+          ))}
+        </div>
+
+        <!-- Owner -->
+        <div class="mt-8 p-4 rounded-card border border-border bg-white flex items-center gap-3">
+          <span class="w-10 h-10 rounded-full bg-lavender-light text-lavender flex items-center justify-center text-sm font-bold">
+            {item.owner.avatar}
+          </span>
+          <div>
+            <p class="text-sm font-semibold">{item.owner.name}</p>
+            <p class="text-xs text-muted">{item.owner.community}</p>
+          </div>
+        </div>
+
+        <div class="mt-auto pt-8">
+          {item.available ? (
+            <button class="w-full py-3.5 text-sm font-semibold text-white bg-sage hover:bg-sage-dark rounded-button transition-colors">
+              Request to Borrow
+            </button>
+          ) : (
+            <button class="w-full py-3.5 text-sm font-semibold text-muted bg-border/60 rounded-button cursor-not-allowed" disabled>
+              Not Available Right Now
+            </button>
+          )}
+        </div>
+      </div>
+    </div>
+  </div>
+</Base>

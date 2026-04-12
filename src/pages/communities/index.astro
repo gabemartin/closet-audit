@@ -1,0 +1,71 @@
+---
+import Base from "../../layouts/Base.astro";
+import { communities } from "../../data/mock";
+
+const typeLabels: Record<string, string> = {
+  sorority: "Greek Life",
+  dorm: "Dorms",
+  neighborhood: "Neighborhoods",
+  club: "Clubs & Orgs",
+};
+
+const grouped = communities.reduce(
+  (acc, c) => {
+    const group = typeLabels[c.type] ?? c.type;
+    if (!acc[group]) acc[group] = [];
+    acc[group].push(c);
+    return acc;
+  },
+  {} as Record<string, typeof communities>,
+);
+---
+
+<Base title="Communities — Closet Audit">
+  <div class="max-w-6xl mx-auto px-4 py-10">
+    <div class="mb-10">
+      <h1 class="font-display font-bold text-3xl">Communities</h1>
+      <p class="mt-1 text-muted text-sm">
+        Join a community to start sharing and borrowing
+      </p>
+    </div>
+
+    {Object.entries(grouped).map(([group, list]) => (
+      <div class="mb-12">
+        <h2 class="font-display font-semibold text-lg mb-4">{group}</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {list.map((c) => (
+            <a
+              href={`/communities/${c.id}`}
+              class="block p-6 rounded-card border border-border bg-white hover:shadow-md hover:-translate-y-0.5 transition-all duration-200"
+            >
+              <div class="flex items-center gap-3 mb-3">
+                <span class="w-10 h-10 rounded-full bg-sage-light flex items-center justify-center text-sage-dark font-display font-bold text-sm">
+                  {c.name.charAt(0)}
+                </span>
+                <div>
+                  <p class="font-semibold text-sm">{c.name}</p>
+                  <p class="text-xs text-muted capitalize">{c.type}</p>
+                </div>
+              </div>
+              <p class="text-sm text-muted leading-relaxed">{c.description}</p>
+              <div class="mt-4 flex gap-4 text-xs text-muted">
+                <span><strong class="text-charcoal">{c.memberCount}</strong> members</span>
+                <span><strong class="text-charcoal">{c.activeListings}</strong> items</span>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    ))}
+
+    <div class="mt-8 p-8 rounded-card bg-sage-light/30 border border-sage-light text-center">
+      <h3 class="font-display font-semibold text-lg">Don't see your community?</h3>
+      <p class="mt-2 text-sm text-muted max-w-md mx-auto">
+        Start one! All you need is a name and a few friends to get going.
+      </p>
+      <button class="mt-5 px-6 py-2.5 text-sm font-semibold text-white bg-sage hover:bg-sage-dark rounded-button transition-colors">
+        Create a Community
+      </button>
+    </div>
+  </div>
+</Base>

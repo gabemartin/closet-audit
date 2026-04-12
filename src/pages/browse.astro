@@ -1,0 +1,15 @@
+---
+import Base from "../layouts/Base.astro";
+import BrowseGrid from "../components/BrowseGrid";
+import { items, categories } from "../data/mock";
+---
+
+<Base title="Browse — Closet Audit">
+  <div class="max-w-6xl mx-auto px-4 py-10">
+    <div class="mb-8">
+      <h1 class="font-display font-bold text-3xl">Browse</h1>
+      <p class="mt-1 text-muted text-sm">Find pieces from communities near you</p>
+    </div>
+    <BrowseGrid items={items} categories={categories} client:load />
+  </div>
+</Base>
