@@ -9,17 +9,24 @@ interface Props {
   occasions: readonly { id: string; label: string }[];
 }
 
+const ITEMS_PER_PAGE = 8;
+
 export default function BrowseGrid({ items = [], closets = [], categories = [], occasions = [] }: Props) {
   const [mounted, setMounted] = useState(false);
   const [activeCat, setActiveCat] = useState("all");
   const [activeOccasion, setActiveOccasion] = useState("all");
   const [query, setQuery] = useState("");
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
   const closetMap = Object.fromEntries(closets.map((c) => [c.id, c]));
+
+  useEffect(() => {
+    setPage(1);
+  }, [activeCat, activeOccasion, query]);
 
   const filtered = items.filter((item) => {
       const matchCat = activeCat === "all" || item.category === activeCat;
@@ -34,6 +41,9 @@ export default function BrowseGrid({ items = [], closets = [], categories = [], 
         (closetMap[item.closetId]?.name && closetMap[item.closetId].name.toLowerCase().includes(q));
       return matchCat && matchOccasion && matchQuery;
     });
+
+    const totalPages = Math.max(1, Math.ceil(filtered.length / ITEMS_PER_PAGE));
+    const paged = filtered.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE);
 
     if (!mounted) return null;
 
@@ -119,47 +129,81 @@ export default function BrowseGrid({ items = [], closets = [], categories = [], 
           </button>
         </div>
       ) : (
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5">
-          {filtered.map((item) => {
-            const closet = closetMap[item.closetId];
-            return (
-              <a key={item.id} href={withBase(`/item/${item.id}`)} className="group">
-                <div className="relative aspect-[3/4] rounded-[var(--radius-card)] overflow-hidden bg-[var(--color-border)]/40">
-                  <img
-                    src={item.images[0]}
-                    alt={item.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    loading="lazy"
-                  />
-                  {/* Price badge */}
-                  <span className="absolute top-2 right-2 px-2 py-0.5 text-xs font-bold text-white bg-black/60 backdrop-blur-sm rounded-[var(--radius-pill)]">
-                    ${item.rentPrice}
-                  </span>
-                  {!item.available && (
-                    <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-                      <span className="px-3 py-1 text-xs font-semibold text-white bg-black/60 rounded-[var(--radius-pill)]">
-                        Rented
-                      </span>
-                    </div>
-                  )}
-                </div>
-                <div className="mt-2.5">
-                  <p className="text-sm font-semibold truncate group-hover:text-[var(--color-sage-dark)] transition-colors">
-                    {item.title}
-                  </p>
-                  <p className="text-xs text-[var(--color-muted)] mt-0.5">
-                    Size {item.size} · {item.condition}
-                  </p>
-                  {closet && (
-                    <p className="text-xs text-[var(--color-muted)] mt-0.5 truncate">
-                      {closet.name}
+        <>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5">
+            {paged.map((item) => {
+              const closet = closetMap[item.closetId];
+              return (
+                <a key={item.id} href={withBase(`/item/${item.id}`)} className="group">
+                  <div className="relative aspect-[3/4] rounded-[var(--radius-card)] overflow-hidden bg-[var(--color-border)]/40">
+                    <img
+                      src={item.images[0]}
+                      alt={item.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      loading="lazy"
+                    />
+                    <span className="absolute top-2 right-2 px-2 py-0.5 text-xs font-bold text-white bg-black/60 backdrop-blur-sm rounded-[var(--radius-pill)]">
+                      ${item.rentPrice}
+                    </span>
+                    {!item.available && (
+                      <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                        <span className="px-3 py-1 text-xs font-semibold text-white bg-black/60 rounded-[var(--radius-pill)]">
+                          Rented
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                  <div className="mt-2.5">
+                    <p className="text-sm font-semibold truncate group-hover:text-[var(--color-sage-dark)] transition-colors">
+                      {item.title}
                     </p>
-                  )}
-                </div>
-              </a>
-            );
-          })}
-        </div>
+                    <p className="text-xs text-[var(--color-muted)] mt-0.5">
+                      Size {item.size} · {item.condition}
+                    </p>
+                    {closet && (
+                      <p className="text-xs text-[var(--color-muted)] mt-0.5 truncate">
+                        {closet.name}
+                      </p>
+                    )}
+                  </div>
+                </a>
+              );
+            })}
+          </div>
+
+          {/* Pagination */}
+          {totalPages > 1 && (
+            <nav className="flex items-center justify-center gap-1.5 mt-10">
+              <button
+                onClick={() => setPage((p) => Math.max(1, p - 1))}
+                disabled={page === 1}
+                className="px-3 py-1.5 text-sm rounded-[var(--radius-button)] border border-[var(--color-border)] disabled:opacity-30 disabled:cursor-not-allowed hover:bg-[var(--color-sage-light)]/40 transition-colors"
+              >
+                Prev
+              </button>
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map((n) => (
+                <button
+                  key={n}
+                  onClick={() => setPage(n)}
+                  className={`w-9 h-9 text-sm font-medium rounded-[var(--radius-button)] transition-colors ${
+                    n === page
+                      ? "bg-[var(--color-charcoal)] text-white"
+                      : "border border-[var(--color-border)] hover:bg-[var(--color-sage-light)]/40"
+                  }`}
+                >
+                  {n}
+                </button>
+              ))}
+              <button
+                onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+                disabled={page === totalPages}
+                className="px-3 py-1.5 text-sm rounded-[var(--radius-button)] border border-[var(--color-border)] disabled:opacity-30 disabled:cursor-not-allowed hover:bg-[var(--color-sage-light)]/40 transition-colors"
+              >
+                Next
+              </button>
+            </nav>
+          )}
+        </>
       )}
     </div>
   );
