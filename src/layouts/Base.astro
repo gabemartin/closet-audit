@@ -40,7 +40,7 @@ const {
   <body class="min-h-screen flex flex-col">
     <nav
       class="sticky z-50 bg-cream/80 backdrop-blur-md border-b border-border"
-      style="top: var(--safe-area-top);"
+      style="top: 0; padding-top: var(--safe-area-top);"
       data-mobile-nav-root
     >
       <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
@@ -165,7 +165,7 @@ const {
         navOpenIcon instanceof SVGElement &&
         navCloseIcon instanceof SVGElement
       ) {
-        const setMenuState = (isOpen) => {
+        const setMenuState = (isOpen: boolean) => {
           navToggle.setAttribute("aria-expanded", String(isOpen));
           navMenu.classList.toggle("hidden", !isOpen);
           navOpenIcon.classList.toggle("hidden", isOpen);

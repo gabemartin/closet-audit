@@ -46,9 +46,5 @@
     font-family: var(--font-sans);
     background-color: var(--color-cream);
     color: var(--color-charcoal);
-    padding-top: var(--safe-area-top);
-    padding-right: var(--safe-area-right);
-    padding-bottom: var(--safe-area-bottom);
-    padding-left: var(--safe-area-left);
   }
 }
