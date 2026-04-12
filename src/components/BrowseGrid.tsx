@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import type { Item, Closet } from "../data/mock";
 import { withBase } from "../lib/paths";
 
@@ -9,28 +9,35 @@ interface Props {
   occasions: readonly { id: string; label: string }[];
 }
 
-export default function BrowseGrid({ items, closets, categories, occasions }: Props) {
+export default function BrowseGrid({ items = [], closets = [], categories = [], occasions = [] }: Props) {
+  const [mounted, setMounted] = useState(false);
   const [activeCat, setActiveCat] = useState("all");
   const [activeOccasion, setActiveOccasion] = useState("all");
   const [query, setQuery] = useState("");
 
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const closetMap = Object.fromEntries(closets.map((c) => [c.id, c]));
 
   const filtered = items.filter((item) => {
-    const matchCat = activeCat === "all" || item.category === activeCat;
-    const matchOccasion =
-      activeOccasion === "all" || item.occasion.includes(activeOccasion as any);
-    const q = query.toLowerCase();
-    const matchQuery =
-      !q ||
-      item.title.toLowerCase().includes(q) ||
-      item.occasion.some((o) => o.includes(q)) ||
-      item.color.toLowerCase().includes(q) ||
-      closetMap[item.closetId]?.name.toLowerCase().includes(q);
-    return matchCat && matchOccasion && matchQuery;
-  });
+      const matchCat = activeCat === "all" || item.category === activeCat;
+      const matchOccasion =
+        activeOccasion === "all" || (item.occasion && item.occasion.includes(activeOccasion as any));
+      const q = query.toLowerCase();
+      const matchQuery =
+        !q ||
+        (item.title && item.title.toLowerCase().includes(q)) ||
+        (item.occasion && item.occasion.some((o) => o.includes(q))) ||
+        (item.color && item.color.toLowerCase().includes(q)) ||
+        (closetMap[item.closetId]?.name && closetMap[item.closetId].name.toLowerCase().includes(q));
+      return matchCat && matchOccasion && matchQuery;
+    });
 
-  return (
+    if (!mounted) return null;
+
+    return (
     <div>
       {/* Search */}
       <div className="relative mb-4">

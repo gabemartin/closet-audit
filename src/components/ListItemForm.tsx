@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from "react";
+import React, { useState, useEffect, type FormEvent } from "react";
 import { withBase } from "../lib/paths";
 
 const categories = [
@@ -26,8 +26,13 @@ const occasionOptions = [
 ] as const;
 
 export default function ListItemForm() {
+  const [mounted, setMounted] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [selectedOccasions, setSelectedOccasions] = useState<Set<string>>(new Set());
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   function toggleOccasion(occ: string) {
     setSelectedOccasions((prev) => {
@@ -78,6 +83,8 @@ export default function ListItemForm() {
 
   const inputClass =
     "w-full px-4 py-2.5 text-sm rounded-[var(--radius-button)] border border-[var(--color-border)] bg-white focus:outline-none focus:ring-2 focus:ring-[var(--color-sage)]/30 focus:border-[var(--color-sage)] transition";
+
+  if (!mounted) return null;
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">

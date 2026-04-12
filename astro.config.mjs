@@ -9,8 +9,11 @@ const base = process.env.BASE_PATH ?? "/";
 export default defineConfig({
   site,
   base,
-  integrations: [react()],
+  integrations: [react({ jsxRuntime: 'classic' })],
   vite: {
     plugins: [tailwindcss()],
+    optimizeDeps: {
+      include: ['react/jsx-dev-runtime', 'react/jsx-runtime']
+    }
   },
 });

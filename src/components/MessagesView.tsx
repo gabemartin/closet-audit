@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import type { Conversation, Closet, Item, Message } from "../data/mock";
 import { withBase } from "../lib/paths";
 
@@ -33,13 +33,18 @@ function formatMessageTime(iso: string): string {
   });
 }
 
-export default function MessagesView({ conversations, allMessages, initialConversationId }: Props) {
+export default function MessagesView({ conversations = [], allMessages = [], initialConversationId }: Props) {
   const [activeId, setActiveId] = useState<string | null>(initialConversationId ?? conversations[0]?.id ?? null);
   const [draft, setDraft] = useState("");
   const [localMessages, setLocalMessages] = useState<Message[]>(allMessages);
   const [mobileShowThread, setMobileShowThread] = useState(!!initialConversationId);
+  const [mounted, setMounted] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const activeConv = conversations.find((c) => c.id === activeId);
   const threadMessages = localMessages.filter((m) => m.conversationId === activeId);
@@ -83,6 +88,8 @@ export default function MessagesView({ conversations, allMessages, initialConver
       handleSend();
     }
   }
+
+  if (!mounted) return null;
 
   return (
     <div className="flex h-[calc(100vh-4rem)] bg-cream">
@@ -128,7 +135,7 @@ export default function MessagesView({ conversations, allMessages, initialConver
                     <div className="flex items-baseline justify-between gap-2">
                       <p className="text-sm font-semibold truncate">{conv.closet.name}</p>
                       <span className="text-[11px] text-muted shrink-0">
-                        {formatTime(lastMsg?.timestamp ?? conv.lastMessageAt)}
+                        {mounted ? formatTime(lastMsg?.timestamp ?? conv.lastMessageAt) : ""}
                       </span>
                     </div>
                     {conv.item && (
@@ -230,12 +237,18 @@ export default function MessagesView({ conversations, allMessages, initialConver
                   <div key={msg.id}>
                     {showTimestamp && (
                       <p className="text-center text-[11px] text-muted/60 py-3">
-                        {new Date(msg.timestamp).toLocaleDateString("en-US", {
-                          weekday: "short",
-                          month: "short",
-                          day: "numeric",
-                        })}{" "}
-                        · {formatMessageTime(msg.timestamp)}
+                        {mounted ? (
+                          <>
+                            {new Date(msg.timestamp).toLocaleDateString("en-US", {
+                              weekday: "short",
+                              month: "short",
+                              day: "numeric",
+                            })}{" "}
+                            · {formatMessageTime(msg.timestamp)}
+                          </>
+                        ) : (
+                          ""
+                        )}
                       </p>
                     )}
                     <div
