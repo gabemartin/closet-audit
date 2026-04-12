@@ -1,0 +1,19 @@
+{
+  "name": "Closet Audit",
+  "short_name": "Closet Audit",
+  "description": "Rent clothes from closets in your community",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#faf7f2",
+  "theme_color": "#faf7f2",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
