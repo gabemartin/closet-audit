@@ -2,6 +2,7 @@
 import Base from "../../layouts/Base.astro";
 import { items, getCloset } from "../../data/mock";
 import { withBase } from "../../lib/paths";
+import RentButton from "../../components/RentButton";
 
 export function getStaticPaths() {
   return items.map((item) => ({
@@ -121,15 +122,7 @@ const closet = getCloset(item.closetId);
         )}
 
         <div class="mt-auto pt-8">
-          {item.available ? (
-            <button class="w-full py-3.5 text-sm font-semibold text-white bg-sage hover:bg-sage-dark rounded-button transition-colors">
-              Request to Rent — ${item.rentPrice}
-            </button>
-          ) : (
-            <button class="w-full py-3.5 text-sm font-semibold text-muted bg-border/60 rounded-button cursor-not-allowed" disabled>
-              Currently Rented
-            </button>
-          )}
+          <RentButton client:load price={item.rentPrice} available={item.available} />
         </div>
       </div>
     </div>
