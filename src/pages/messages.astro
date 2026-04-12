@@ -1,0 +1,17 @@
+---
+import Base from "../layouts/Base.astro";
+import MessagesView from "../components/MessagesView";
+import { conversations, messages, getConversationsForUser } from "../data/mock";
+
+const enrichedConversations = getConversationsForUser();
+const initialConvId = Astro.url.searchParams.get("conv") ?? undefined;
+---
+
+<Base title="Messages — Closet Audit">
+  <MessagesView
+    client:load
+    conversations={enrichedConversations}
+    allMessages={messages}
+    initialConversationId={initialConvId}
+  />
+</Base>

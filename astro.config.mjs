@@ -3,7 +3,12 @@ import { defineConfig } from "astro/config";
 import tailwindcss from "@tailwindcss/vite";
 import react from "@astrojs/react";
 
+const site = process.env.SITE_URL;
+const base = process.env.BASE_PATH ?? "/";
+
 export default defineConfig({
+  site,
+  base,
   integrations: [react()],
   vite: {
     plugins: [tailwindcss()],

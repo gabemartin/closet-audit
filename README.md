@@ -1,43 +1,63 @@
-# Astro Starter Kit: Minimal
+# closet-audit
 
-```sh
-npm create astro@latest -- --template minimal
+`closet-audit` is an Astro + React static site. This repo is configured to build to `dist/` and deploy automatically to GitHub Pages from the `master` branch.
+
+## Local development
+
+```bash
+npm install
+npm run dev
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+Default dev URL: `http://localhost:4321`.
 
-## 🚀 Project Structure
+## Build output
 
-Inside of your Astro project, you'll see the following folders and files:
+Production build command:
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+```bash
+npm run build
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+This generates a static site in `dist/`.
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+## GitHub Pages deployment (already configured)
 
-Any static assets, like images, can be placed in the `public/` directory.
+This repository includes `.github/workflows/deploy.yml` which:
 
-## 🧞 Commands
+1. Runs on pushes to `master` (and manual trigger).
+2. Installs dependencies with `npm ci`.
+3. Builds with Astro.
+4. Uploads `dist/` as the Pages artifact.
+5. Deploys to GitHub Pages.
 
-All commands are run from the root of the project, from a terminal:
+The build uses:
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+- `SITE_URL=https://<github-owner>.github.io`
+- `BASE_PATH=/<repo-name>`
 
-## 👀 Want to learn more?
+So the expected URL for this repo is:
+`https://<your-github-username>.github.io/closet-audit/`
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+## First-time publish checklist
+
+1. Push this repo to GitHub as `closet-audit`.
+2. In GitHub, open `Settings` -> `Pages`.
+3. Under **Build and deployment**, set **Source** to **GitHub Actions**.
+4. Push to `master` (or run the workflow manually from the Actions tab).
+5. Wait for `Deploy to GitHub Pages` workflow to finish.
+6. Open the published URL.
+
+## Project commands
+
+| Command           | Action |
+| ---               | --- |
+| `npm run dev`     | Start local development server |
+| `npm run build`   | Build static site to `dist/` |
+| `npm run preview` | Preview production build locally |
+
+## Troubleshooting
+
+- 404 or missing CSS/JS on Pages: confirm the repository name is `closet-audit`, or update `BASE_PATH` handling in the workflow/config.
+- Pages not updating: check the latest Actions run logs for build/deploy errors.
+- Wrong branch: workflow deploys from commits pushed to `master`.

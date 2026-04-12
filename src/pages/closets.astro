@@ -1,0 +1,74 @@
+---
+import Base from "../layouts/Base.astro";
+import { closets, getItemsByCloset } from "../data/mock";
+---
+
+<Base title="Closets — Closet Audit">
+  <div class="max-w-6xl mx-auto px-4 py-10">
+    <div class="mb-10">
+      <h1 class="font-display font-bold text-3xl">Closets</h1>
+      <p class="mt-1 text-muted text-sm">
+        Browse rental closets near you
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      {closets.map((c) => {
+        const closetItems = getItemsByCloset(c.id);
+        const previewItems = closetItems.slice(0, 3);
+        return (
+          <a
+            href={`/closet/${c.id}`}
+            class="block rounded-card border border-border bg-white hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 overflow-hidden"
+          >
+            {/* Preview grid: 3 images */}
+            <div class="grid grid-cols-3 gap-px bg-border h-32">
+              {previewItems.map((item) => (
+                <div class="overflow-hidden">
+                  <img
+                    src={item.images[0]}
+                    alt={item.title}
+                    class="w-full h-full object-cover"
+                    loading="lazy"
+                  />
+                </div>
+              ))}
+              {previewItems.length < 3 &&
+                Array.from({ length: 3 - previewItems.length }).map((_, i) => (
+                  <div class="bg-border/40" />
+                ))
+              }
+            </div>
+
+            <div class="p-5">
+              <div class="flex items-center gap-3 mb-3">
+                <span class="w-10 h-10 rounded-full bg-sage-light text-sage-dark flex items-center justify-center text-sm font-display font-bold">
+                  {c.avatar}
+                </span>
+                <div>
+                  <p class="font-semibold text-sm">{c.name}</p>
+                  <p class="text-xs text-muted">@{c.handle} · {c.location}</p>
+                </div>
+              </div>
+              <p class="text-sm text-muted leading-relaxed line-clamp-2">{c.bio}</p>
+              <div class="mt-3 flex gap-4 text-xs text-muted">
+                <span><strong class="text-charcoal">{c.itemCount}</strong> items</span>
+                <span><strong class="text-charcoal">{c.followers.toLocaleString()}</strong> followers</span>
+              </div>
+            </div>
+          </a>
+        );
+      })}
+    </div>
+
+    <div class="mt-12 p-8 rounded-card bg-sage-light/30 border border-sage-light text-center">
+      <h3 class="font-display font-semibold text-lg">Want to rent out your closet?</h3>
+      <p class="mt-2 text-sm text-muted max-w-md mx-auto">
+        Create your closet in minutes. Set your prices, rules, and start earning from the pieces you already own.
+      </p>
+      <a href="/start" class="inline-block mt-5 px-6 py-2.5 text-sm font-semibold text-white bg-sage hover:bg-sage-dark rounded-button transition-colors">
+        Start Your Closet
+      </a>
+    </div>
+  </div>
+</Base>

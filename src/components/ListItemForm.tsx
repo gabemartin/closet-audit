@@ -1,20 +1,41 @@
 import { useState, type FormEvent } from "react";
 
 const categories = [
+  "dresses",
   "tops",
   "bottoms",
-  "dresses",
+  "sets",
   "outerwear",
   "shoes",
   "accessories",
 ] as const;
 
 const conditions = ["like new", "good", "fair"] as const;
-
 const sizes = ["XXS", "XS", "S", "M", "L", "XL", "XXL", "OS"] as const;
+
+const occasionOptions = [
+  "formal",
+  "gameday",
+  "date party",
+  "21st",
+  "rush",
+  "going out",
+  "wedding guest",
+  "casual",
+] as const;
 
 export default function ListItemForm() {
   const [submitted, setSubmitted] = useState(false);
+  const [selectedOccasions, setSelectedOccasions] = useState<Set<string>>(new Set());
+
+  function toggleOccasion(occ: string) {
+    setSelectedOccasions((prev) => {
+      const next = new Set(prev);
+      if (next.has(occ)) next.delete(occ);
+      else next.add(occ);
+      return next;
+    });
+  }
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -31,11 +52,14 @@ export default function ListItemForm() {
           Item listed!
         </h2>
         <p className="mt-2 text-sm text-[var(--color-muted)]">
-          Your community can now see and request this piece.
+          Your piece is now live. People in your community can request to rent it.
         </p>
         <div className="mt-6 flex justify-center gap-3">
           <button
-            onClick={() => setSubmitted(false)}
+            onClick={() => {
+              setSubmitted(false);
+              setSelectedOccasions(new Set());
+            }}
             className="px-6 py-2.5 text-sm font-semibold text-white bg-[var(--color-sage)] hover:bg-[var(--color-sage-dark)] rounded-[var(--radius-button)] transition-colors"
           >
             List another
@@ -51,9 +75,12 @@ export default function ListItemForm() {
     );
   }
 
+  const inputClass =
+    "w-full px-4 py-2.5 text-sm rounded-[var(--radius-button)] border border-[var(--color-border)] bg-white focus:outline-none focus:ring-2 focus:ring-[var(--color-sage)]/30 focus:border-[var(--color-sage)] transition";
+
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      {/* Photo upload placeholder */}
+      {/* Photo upload */}
       <div>
         <label className="block text-sm font-medium mb-2">Photos</label>
         <div className="border-2 border-dashed border-[var(--color-border)] rounded-[var(--radius-card)] p-8 text-center hover:border-[var(--color-sage)] transition-colors cursor-pointer">
@@ -75,7 +102,7 @@ export default function ListItemForm() {
             Tap to add photos
           </p>
           <p className="text-xs text-[var(--color-muted)]/60 mt-1">
-            Up to 4 photos recommended
+            Show the full outfit — front, back, and on-body if you can
           </p>
         </div>
       </div>
@@ -89,43 +116,34 @@ export default function ListItemForm() {
           id="title"
           type="text"
           required
-          placeholder='e.g. "Sage green midi dress"'
-          className="w-full px-4 py-2.5 text-sm rounded-[var(--radius-button)] border border-[var(--color-border)] bg-white focus:outline-none focus:ring-2 focus:ring-[var(--color-sage)]/30 focus:border-[var(--color-sage)] transition"
+          placeholder='e.g. "Champagne satin slip dress"'
+          className={inputClass}
         />
       </div>
 
       {/* Description */}
       <div>
-        <label
-          htmlFor="description"
-          className="block text-sm font-medium mb-2"
-        >
+        <label htmlFor="description" className="block text-sm font-medium mb-2">
           Description
         </label>
         <textarea
           id="description"
           rows={3}
-          placeholder="Fit notes, fabric, occasions it's good for…"
-          className="w-full px-4 py-2.5 text-sm rounded-[var(--radius-button)] border border-[var(--color-border)] bg-white focus:outline-none focus:ring-2 focus:ring-[var(--color-sage)]/30 focus:border-[var(--color-sage)] transition resize-none"
+          placeholder="Fit notes, brand, how you wore it, any flaws…"
+          className={`${inputClass} resize-none`}
         />
       </div>
 
-      {/* Category & Size row */}
-      <div className="grid grid-cols-2 gap-4">
+      {/* Category, Size, Price row */}
+      <div className="grid grid-cols-3 gap-4">
         <div>
           <label htmlFor="category" className="block text-sm font-medium mb-2">
             Category
           </label>
-          <select
-            id="category"
-            required
-            className="w-full px-4 py-2.5 text-sm rounded-[var(--radius-button)] border border-[var(--color-border)] bg-white focus:outline-none focus:ring-2 focus:ring-[var(--color-sage)]/30 focus:border-[var(--color-sage)] transition capitalize"
-          >
+          <select id="category" required className={`${inputClass} capitalize`}>
             <option value="">Select…</option>
             {categories.map((c) => (
-              <option key={c} value={c}>
-                {c}
-              </option>
+              <option key={c} value={c}>{c}</option>
             ))}
           </select>
         </div>
@@ -133,18 +151,29 @@ export default function ListItemForm() {
           <label htmlFor="size" className="block text-sm font-medium mb-2">
             Size
           </label>
-          <select
-            id="size"
-            required
-            className="w-full px-4 py-2.5 text-sm rounded-[var(--radius-button)] border border-[var(--color-border)] bg-white focus:outline-none focus:ring-2 focus:ring-[var(--color-sage)]/30 focus:border-[var(--color-sage)] transition"
-          >
+          <select id="size" required className={inputClass}>
             <option value="">Select…</option>
             {sizes.map((s) => (
-              <option key={s} value={s}>
-                {s}
-              </option>
+              <option key={s} value={s}>{s}</option>
             ))}
           </select>
+        </div>
+        <div>
+          <label htmlFor="price" className="block text-sm font-medium mb-2">
+            Rent Price
+          </label>
+          <div className="relative">
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-[var(--color-muted)]">$</span>
+            <input
+              id="price"
+              type="number"
+              min="0"
+              step="5"
+              required
+              placeholder="25"
+              className={`${inputClass} pl-7`}
+            />
+          </div>
         </div>
       </div>
 
@@ -153,17 +182,8 @@ export default function ListItemForm() {
         <label className="block text-sm font-medium mb-2">Condition</label>
         <div className="flex gap-2">
           {conditions.map((c) => (
-            <label
-              key={c}
-              className="flex-1 relative cursor-pointer"
-            >
-              <input
-                type="radio"
-                name="condition"
-                value={c}
-                required
-                className="peer sr-only"
-              />
+            <label key={c} className="flex-1 relative cursor-pointer">
+              <input type="radio" name="condition" value={c} required className="peer sr-only" />
               <div className="text-center py-2.5 text-sm rounded-[var(--radius-button)] border border-[var(--color-border)] bg-white peer-checked:border-[var(--color-sage)] peer-checked:bg-[var(--color-sage-light)]/40 peer-checked:text-[var(--color-sage-dark)] font-medium capitalize transition-colors">
                 {c}
               </div>
@@ -172,16 +192,37 @@ export default function ListItemForm() {
         </div>
       </div>
 
-      {/* Tags */}
+      {/* Occasions multi-select */}
       <div>
-        <label htmlFor="tags" className="block text-sm font-medium mb-2">
-          Tags
+        <label className="block text-sm font-medium mb-2">Best for (select all that apply)</label>
+        <div className="flex flex-wrap gap-2">
+          {occasionOptions.map((occ) => (
+            <button
+              key={occ}
+              type="button"
+              onClick={() => toggleOccasion(occ)}
+              className={`px-3 py-1.5 text-xs font-medium rounded-[var(--radius-pill)] transition-colors capitalize ${
+                selectedOccasions.has(occ)
+                  ? "bg-[var(--color-lavender)] text-white"
+                  : "bg-[var(--color-lavender-light)]/50 text-[var(--color-muted)] hover:bg-[var(--color-lavender-light)]"
+              }`}
+            >
+              {occ}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Fit note */}
+      <div>
+        <label htmlFor="fit" className="block text-sm font-medium mb-2">
+          Fit note <span className="text-[var(--color-muted)] font-normal">(optional)</span>
         </label>
         <input
-          id="tags"
+          id="fit"
           type="text"
-          placeholder="e.g. formal, spring, date party (comma separated)"
-          className="w-full px-4 py-2.5 text-sm rounded-[var(--radius-button)] border border-[var(--color-border)] bg-white focus:outline-none focus:ring-2 focus:ring-[var(--color-sage)]/30 focus:border-[var(--color-sage)] transition"
+          placeholder='e.g. "runs small", "fits XS-S", "TTS"'
+          className={inputClass}
         />
       </div>
 

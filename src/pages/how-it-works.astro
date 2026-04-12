@@ -6,33 +6,33 @@ import Base from "../layouts/Base.astro";
   <div class="max-w-3xl mx-auto px-4 py-16">
     <h1 class="font-display font-bold text-3xl sm:text-4xl text-center">How Closet Audit works</h1>
     <p class="mt-4 text-center text-muted max-w-lg mx-auto">
-      Think of it as a library card for your community's wardrobe. Here's the rundown.
+      Think of it as the app version of all those "rent my closet" Instagram accounts — but way better.
     </p>
 
     <div class="mt-16 space-y-16">
       {[
         {
           step: "01",
-          title: "Join or create a community",
-          desc: "Find your sorority, dorm floor, or neighborhood on the platform. Communities are invite-based so you're only sharing with people you trust.",
+          title: "Browse or create a closet",
+          desc: "Find closets in your town or campus. See what's available, check prices, and read rental rules — all in one place instead of scrolling an IG grid.",
           color: "sage",
         },
         {
           step: "02",
-          title: "List what you're willing to share",
-          desc: "Snap a few photos, pick a category, and add any notes (fits small, dry clean only, etc). Your items stay in your closet until someone requests them.",
+          title: "Rent at listed prices",
+          desc: "See the price upfront. No more DMing \"how much?\" and waiting. Request to rent, pick your dates, and Venmo the owner. Done.",
           color: "lavender",
         },
         {
           step: "03",
-          title: "Browse & request",
-          desc: "See something you love? Hit request, suggest a borrow window, and wait for the owner to confirm. It's that simple.",
+          title: "Wear it, return it",
+          desc: "Rock the look for your formal, gameday, or date party. Return it within the rental window. Both sides rate the experience.",
           color: "terracotta",
         },
         {
           step: "04",
-          title: "Wear, return, repeat",
-          desc: "Coordinate pickup and drop-off (or use community drop spots). After returning, both sides leave a quick rating to build trust.",
+          title: "Earn from your own closet",
+          desc: "List pieces you're willing to rent out. Set your own prices and rules. Make money from clothes that are just sitting in your closet.",
           color: "sky",
         },
       ].map((item) => (
@@ -48,20 +48,41 @@ import Base from "../layouts/Base.astro";
       ))}
     </div>
 
-    <div class="mt-20 text-center">
-      <h2 class="font-display font-bold text-2xl">Ready to share your closet?</h2>
+    <div class="mt-20 p-8 rounded-card bg-warm-white border border-border">
+      <h2 class="font-display font-bold text-xl text-center mb-4">Why not just use Instagram?</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+        {[
+          { ig: "Scroll a grid to find items", ca: "Search & filter by size, occasion, price" },
+          { ig: "DM to ask if it's available", ca: "Real-time availability on every item" },
+          { ig: "DM to ask the price", ca: "Prices listed upfront" },
+          { ig: "Screenshot to remember it", ca: "Save items & get notified when available" },
+          { ig: "No idea when it's due back", ca: "Rental tracking & return reminders" },
+          { ig: "Hope they don't ghost you", ca: "Reviews & reputation on every closet" },
+        ].map((row) => (
+          <div class="flex gap-3 items-start p-3 rounded-xl">
+            <div class="flex-1">
+              <p class="text-muted line-through decoration-red-300">{row.ig}</p>
+              <p class="font-medium text-sage-dark mt-1">{row.ca}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <div class="mt-16 text-center">
+      <h2 class="font-display font-bold text-2xl">Ready to ditch the DMs?</h2>
       <div class="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3">
         <a
           href="/browse"
           class="px-8 py-3.5 text-sm font-semibold text-white bg-charcoal hover:bg-charcoal/90 rounded-button transition-colors"
         >
-          Start Browsing
+          Browse Rentals
         </a>
         <a
-          href="/list"
+          href="/start"
           class="px-8 py-3.5 text-sm font-semibold text-charcoal bg-white border border-border hover:border-charcoal/20 rounded-button transition-colors"
         >
-          List an Item
+          Start Your Closet
         </a>
       </div>
     </div>
