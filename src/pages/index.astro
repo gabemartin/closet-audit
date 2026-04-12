@@ -2,6 +2,7 @@
 import Base from "../layouts/Base.astro";
 import { items, closets, communities } from "../data/mock";
 import { withBase } from "../lib/paths";
+import heroImage from "../assets/hero.jpg";
 
 const featured = items.filter((i) => i.available).slice(0, 4);
 const topClosets = closets.slice(0, 4);
@@ -10,28 +11,36 @@ const topCommunities = communities.slice(0, 3);
 
 <Base title="Closet Audit — Rent Clothes From Your Community">
   <!-- Hero -->
-  <section class="relative overflow-hidden">
-    <div class="absolute inset-0 bg-gradient-to-br from-sage-light/40 via-cream to-lavender-light/30"></div>
-    <div class="relative max-w-6xl mx-auto px-4 pt-20 pb-24 sm:pt-28 sm:pb-32 text-center">
-      <p class="inline-block px-3 py-1 text-xs font-semibold tracking-wide uppercase text-sage-dark bg-sage-light/60 rounded-pill mb-6">
+  <section class="relative overflow-hidden min-h-[80vh] flex items-center justify-center">
+    <div class="absolute inset-0">
+      <img 
+        src={heroImage.src}
+        alt="Fashion clothes rack background" 
+        class="w-full h-full object-cover object-top"
+      />
+      <!-- Dark overlay for text readability -->
+      <div class="absolute inset-0 bg-black/50"></div>
+    </div>
+    <div class="relative w-full max-w-6xl mx-auto px-4 py-20 text-center">
+      <p class="inline-block px-4 py-1.5 text-xs font-bold tracking-widest uppercase text-white border border-white/30 backdrop-blur-sm bg-white/10 rounded-pill mb-6">
         Your campus closet
       </p>
-      <h1 class="font-display font-extrabold text-4xl sm:text-6xl leading-tight text-charcoal max-w-3xl mx-auto">
+      <h1 class="font-display font-extrabold text-5xl sm:text-7xl leading-tight text-white max-w-4xl mx-auto tracking-tight">
         Rent the look.<br />Skip the price tag.
       </h1>
-      <p class="mt-6 text-lg sm:text-xl text-muted max-w-xl mx-auto leading-relaxed">
+      <p class="mt-6 text-lg sm:text-xl text-white/90 max-w-xl mx-auto leading-relaxed font-medium">
         Rent dresses, gameday fits, and going-out pieces from closets in your community. No more Instagram DMs.
       </p>
-      <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-3">
+      <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
         <a
           href={withBase("/browse")}
-          class="w-full sm:w-auto px-8 py-3.5 text-sm font-semibold text-white bg-charcoal hover:bg-charcoal/90 rounded-button transition-colors"
+          class="w-full sm:w-auto px-8 py-4 text-sm font-bold text-charcoal bg-white hover:bg-gray-100 rounded-button transition-colors"
         >
           Browse Rentals
         </a>
         <a
           href={withBase("/start")}
-          class="w-full sm:w-auto px-8 py-3.5 text-sm font-semibold text-charcoal bg-white border border-border hover:border-charcoal/20 rounded-button transition-colors"
+          class="w-full sm:w-auto px-8 py-4 text-sm font-bold text-white bg-transparent border-2 border-white hover:bg-white/10 rounded-button transition-colors"
         >
           List Your Closet
         </a>
