@@ -20,18 +20,28 @@ Append new entries to the `closets` array. Every closet **must** have a unique
 
 ```ts
 interface Closet {
-  id: string;          // unique slug, used in routes: /closet/:id
-  name: string;        // display name, e.g. "Sophia's Styles"
-  handle: string;      // social handle without @
-  avatar: string;      // 2-letter uppercase initials
-  location: string;    // city, state
-  bio: string;         // short description
-  venmo?: string;      // optional Venmo handle
+  id: string;            // unique slug, used in routes: /closet/:id
+  name: string;          // display name, e.g. "Sophia's Styles"
+  handle: string;        // social handle without @
+  avatar: string;        // 2-letter uppercase initials (fallback)
+  profileImage?: string; // Unsplash face-cropped URL via profileImg() helper
+  location: string;      // city, state
+  bio: string;           // short description
+  venmo?: string;        // optional Venmo handle
   followers: number;
   itemCount: number;
-  rules: string[];     // rental rules shown on closet page
+  rules: string[];       // rental rules shown on closet page
 }
 ```
+
+For profile images, use the `profileImg()` helper defined in `mock.ts`:
+
+```ts
+profileImage: profileImg("photo-XXXXXXXXXXXX-XXXXXXXXXXXX")
+```
+
+See the [add-avatar skill](../add-avatar/SKILL.md) for portrait photo
+selection guidelines and avatar component details.
 
 ## Item Schema
 

@@ -33,6 +33,27 @@ function formatMessageTime(iso: string): string {
   });
 }
 
+const avatarSizes = {
+  xs: { outer: "w-8 h-8", inner: "w-[28px] h-[28px]", text: "text-[10px]", gap: "p-[2px]" },
+  sm: { outer: "w-10 h-10", inner: "w-[36px] h-[36px]", text: "text-xs", gap: "p-[2px]" },
+  md: { outer: "w-11 h-11", inner: "w-[40px] h-[40px]", text: "text-sm", gap: "p-[2.5px]" },
+} as const;
+
+function ProfileAvatar({ src, initials, size = "md" }: { src?: string; initials: string; size?: keyof typeof avatarSizes }) {
+  const s = avatarSizes[size];
+  return (
+    <span className={`${s.outer} ${s.gap} rounded-full bg-gradient-to-br from-sage via-lavender to-terracotta shrink-0`}>
+      {src ? (
+        <img src={src} alt={initials} className={`${s.inner} rounded-full object-cover bg-cream`} loading="lazy" />
+      ) : (
+        <span className={`${s.inner} ${s.text} rounded-full bg-sage-light text-sage-dark flex items-center justify-center font-display font-bold`}>
+          {initials}
+        </span>
+      )}
+    </span>
+  );
+}
+
 export default function MessagesView({ conversations = [], allMessages = [], initialConversationId }: Props) {
   const [activeId, setActiveId] = useState<string | null>(initialConversationId ?? conversations[0]?.id ?? null);
   const [draft, setDraft] = useState("");
@@ -128,9 +149,7 @@ export default function MessagesView({ conversations = [], allMessages = [], ini
                     conv.id === activeId ? "bg-sage-light/30" : ""
                   }`}
                 >
-                  <span className="w-11 h-11 rounded-full bg-sage-light text-sage-dark flex items-center justify-center text-sm font-display font-bold shrink-0">
-                    {conv.closet.avatar}
-                  </span>
+                  <ProfileAvatar src={conv.closet.profileImage} initials={conv.closet.avatar} size="md" />
                   <div className="flex-1 min-w-0">
                     <div className="flex items-baseline justify-between gap-2">
                       <p className="text-sm font-semibold truncate">{conv.closet.name}</p>
@@ -180,9 +199,7 @@ export default function MessagesView({ conversations = [], allMessages = [], ini
                 </svg>
               </button>
               <a href={withBase(`/closet/${activeConv.closet.id}`)} className="flex items-center gap-3 flex-1 min-w-0 group">
-                <span className="w-9 h-9 rounded-full bg-sage-light text-sage-dark flex items-center justify-center text-xs font-display font-bold shrink-0">
-                  {activeConv.closet.avatar}
-                </span>
+                <ProfileAvatar src={activeConv.closet.profileImage} initials={activeConv.closet.avatar} size="xs" />
                 <div className="min-w-0">
                   <p className="text-sm font-semibold group-hover:text-sage-dark transition-colors truncate">
                     {activeConv.closet.name}
