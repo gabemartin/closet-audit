@@ -1,0 +1,16 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# Deploy previews (branches + PRs) use the Netlify URL as the site root,
+# no BASE_PATH needed since Netlify gives each preview its own subdomain.
+[context.deploy-preview.environment]
+  SITE_URL = ""
+  BASE_PATH = "/"
+
+[context.branch-deploy.environment]
+  SITE_URL = ""
+  BASE_PATH = "/"
