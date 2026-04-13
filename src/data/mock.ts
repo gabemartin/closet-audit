@@ -3,12 +3,22 @@ export interface Closet {
   name: string;
   handle: string;
   avatar: string;
+  profileImage?: string;
+  coverImage?: string;
+  accentColor?: string;
   location: string;
   bio: string;
   venmo?: string;
   followers: number;
   itemCount: number;
   rules: string[];
+  socialLinks?: {
+    instagram?: string;
+    tiktok?: string;
+    depop?: string;
+    website?: string;
+  };
+  tagline?: string;
 }
 
 export interface Item {
@@ -60,12 +70,23 @@ export interface Community {
 const img = (id: string, w = 400, h = 500) =>
   `https://images.unsplash.com/${id}?w=${w}&h=${h}&fit=crop&q=80`;
 
+const profileImg = (id: string, size = 200) =>
+  `https://images.unsplash.com/${id}?w=${size}&h=${size}&fit=crop&crop=faces&q=80`;
+
+const coverImg = (id: string) =>
+  `https://images.unsplash.com/${id}?w=1200&h=400&fit=crop&q=80`;
+
 export const closets: Closet[] = [
   {
     id: "fairley",
     name: "Fairley Closet",
     handle: "fairleycloset",
     avatar: "FC",
+    profileImage: profileImg("photo-1494790108377-be9c29b29330"),
+    coverImage: coverImg("photo-1525562723836-dca67a71d5f1"),
+    accentColor: "#c47d5a",
+    tagline: "Your closet's new best friend",
+    socialLinks: { instagram: "fairleycloset", tiktok: "fairleycloset" },
     location: "Oxford, MS",
     bio: "Selling + Rentals. Read rules before renting! Venmo before pickup.",
     venmo: "madisonfairleyy",
@@ -85,6 +106,11 @@ export const closets: Closet[] = [
     name: "Kayla's Closet",
     handle: "rentmycloset.kp",
     avatar: "KC",
+    profileImage: profileImg("photo-1438761681033-6461ffad8d80"),
+    coverImage: coverImg("photo-1490481651871-ab68de25d43d"),
+    accentColor: "#b8a9d4",
+    tagline: "Rent the look, own the moment",
+    socialLinks: { instagram: "rentmycloset.kp" },
     location: "Oxford, MS",
     bio: "Prices negotiable — DM if interested. Don't wash!",
     venmo: "kayla.pricee",
@@ -102,6 +128,10 @@ export const closets: Closet[] = [
     name: "Oxford Rentals",
     handle: "rentmycloset.ox",
     avatar: "OR",
+    profileImage: profileImg("photo-1534528741775-53994a69daeb"),
+    coverImage: coverImg("photo-1441984904996-e0b6ba687e04"),
+    accentColor: "#8fae8b",
+    socialLinks: { instagram: "mariahsnare", depop: "mariahsnare" },
     location: "Oxford, MS",
     bio: "DM to Rent. Venmo: mariahsnare. @mariahsnare's closet!",
     venmo: "mariahsnare",
@@ -118,6 +148,11 @@ export const closets: Closet[] = [
     name: "Rent Claire's Closet",
     handle: "rentclairescloset",
     avatar: "RC",
+    profileImage: profileImg("photo-1517841905240-472988babdf9"),
+    coverImage: coverImg("photo-1558171813-4c088753af8f"),
+    accentColor: "#e07a5f",
+    tagline: "Go Dawgs, dress cute",
+    socialLinks: { instagram: "rentclairescloset", tiktok: "clairescloset" },
     location: "Athens, GA",
     bio: "UGA rentals! Formals, gameday, date parties. DM for availability.",
     venmo: "claire_rentals",
@@ -135,6 +170,11 @@ export const closets: Closet[] = [
     name: "Sophia's Styles",
     handle: "sophiastyles",
     avatar: "SS",
+    profileImage: profileImg("photo-1531746020798-e6953c6e8e04"),
+    coverImage: coverImg("photo-1483985988355-763728e1935b"),
+    accentColor: "#9f1239",
+    tagline: "Roll Tide, look good doing it",
+    socialLinks: { instagram: "sophiastyles", tiktok: "sophiastyles", depop: "sophiastyles" },
     location: "Tuscaloosa, AL",
     bio: "Bama girl closet! Gameday, formals, date nights. Venmo or Zelle accepted.",
     venmo: "sophia.k",
@@ -153,6 +193,11 @@ export const closets: Closet[] = [
     name: "Emily's Edit",
     handle: "emilys.edit",
     avatar: "EE",
+    profileImage: profileImg("photo-1488426862026-3ee34a7d66df"),
+    coverImage: coverImg("photo-1469334031218-e382a71b716b"),
+    accentColor: "#1a1a1a",
+    tagline: "Less fast fashion, more closet sharing",
+    socialLinks: { instagram: "emilys.edit", website: "emilysedit.com" },
     location: "Nashville, TN",
     bio: "Curated closet of designer pieces. Rent for less, look like more.",
     venmo: "emilyedit",
@@ -170,6 +215,11 @@ export const closets: Closet[] = [
     name: "Anna Kate's Closet",
     handle: "annakate.closet",
     avatar: "AK",
+    profileImage: profileImg("photo-1524504388940-b1c1722653e1"),
+    coverImage: coverImg("photo-1512436991641-6745cdb1723f"),
+    accentColor: "#d4a373",
+    tagline: "Rush week ready, always",
+    socialLinks: { instagram: "annakate.closet", tiktok: "annakate.closet" },
     location: "Oxford, MS",
     bio: "Ole Miss girl 🎀 Rush staples, formals, and everything in between. Venmo before pickup!",
     venmo: "annakate.ox",
@@ -188,6 +238,11 @@ export const closets: Closet[] = [
     name: "Ole Miss Rentals",
     handle: "olemissrentals",
     avatar: "OM",
+    profileImage: profileImg("photo-1487412720507-e7ab37603c6f"),
+    coverImage: coverImg("photo-1558769132-cb1aea458c5e"),
+    accentColor: "#ce1126",
+    tagline: "Hotty Toddy fits for every occasion",
+    socialLinks: { instagram: "olemissrentals", tiktok: "olemissrentals", depop: "olemissrentals" },
     location: "Oxford, MS",
     bio: "The go-to closet for rush, formals, and game day. DM to rent. Hotty Toddy!",
     venmo: "olemissrentals",
@@ -207,6 +262,11 @@ export const closets: Closet[] = [
     name: "Lauren's Lookbook",
     handle: "laurens.lookbook",
     avatar: "LL",
+    profileImage: profileImg("photo-1529626455594-4ff0802cfb7e"),
+    coverImage: coverImg("photo-1445205170230-053b83016050"),
+    accentColor: "#d4a373",
+    tagline: "One rental at a time",
+    socialLinks: { instagram: "laurens.lookbook" },
     location: "Oxford, MS",
     bio: "Sharing my closet one rental at a time 💛 Tons of rush looks, blazers & coats.",
     venmo: "laurenslookbook",
@@ -225,6 +285,11 @@ export const closets: Closet[] = [
     name: "Harley's Closet",
     handle: "harleyscloset",
     avatar: "HC",
+    profileImage: profileImg("photo-1544005313-94ddf0286df2"),
+    coverImage: coverImg("photo-1567401893414-76b7b1e5a7a5"),
+    accentColor: "#89b4c8",
+    tagline: "Trendy pieces, zero commitment",
+    socialLinks: { instagram: "harleyscloset", tiktok: "harleyscloset" },
     location: "Oxford, MS",
     bio: "Trendy pieces for every Ole Miss occasion. Rush week specialist 👑 DM for availability.",
     venmo: "harley.ox",
@@ -616,7 +681,7 @@ export const items: Item[] = [
     condition: "like new",
     rentPrice: 32,
     closetId: "ole-miss-rentals",
-    images: [img("photo-1548624313-0396a52a64e4")],
+    images: [img("photo-1628301048958-b836ceb72116")],
     available: true,
   },
   {
@@ -677,7 +742,7 @@ export const items: Item[] = [
     condition: "like new",
     rentPrice: 50,
     closetId: "ole-miss-rentals",
-    images: [img("photo-1551734032-5166604fa0c4")],
+    images: [img("photo-1544997867-784de8a9918e")],
     available: true,
   },
   {
@@ -810,7 +875,7 @@ export const items: Item[] = [
     condition: "like new",
     rentPrice: 18,
     closetId: "laurens",
-    images: [img("photo-1581044777550-4cfa30f2db81")],
+    images: [img("photo-1764773966260-70c54fb7e429")],
     available: true,
   },
   {
@@ -825,7 +890,7 @@ export const items: Item[] = [
     rentPrice: 33,
     buyPrice: 70,
     closetId: "anna-kate",
-    images: [img("photo-1524504388940-b1c1722653e0")],
+    images: [img("photo-1599679598484-9971ec69b0d7")],
     available: true,
   },
   {
@@ -915,7 +980,7 @@ export const items: Item[] = [
     condition: "good",
     rentPrice: 27,
     closetId: "kayla",
-    images: [img("photo-1591369822096-ffd140ec948b")],
+    images: [img("photo-1617810232338-85c1e228ec1d")],
     available: true,
   },
   {

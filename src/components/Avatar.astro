@@ -1,0 +1,52 @@
+---
+interface Props {
+  src?: string;
+  initials: string;
+  size?: "xs" | "sm" | "md" | "lg";
+  ring?: boolean;
+  class?: string;
+}
+
+const { src, initials, size = "md", ring = true, class: className = "" } = Astro.props;
+
+const sizeMap = {
+  xs: { outer: "w-8 h-8", inner: "w-[28px] h-[28px]", text: "text-[10px]", gap: "p-[2px]" },
+  sm: { outer: "w-10 h-10", inner: "w-[36px] h-[36px]", text: "text-xs", gap: "p-[2px]" },
+  md: { outer: "w-11 h-11", inner: "w-[40px] h-[40px]", text: "text-sm", gap: "p-[2.5px]" },
+  lg: { outer: "w-20 h-20", inner: "w-[72px] h-[72px]", text: "text-xl", gap: "p-[3px]" },
+};
+
+const s = sizeMap[size];
+---
+
+{ring ? (
+  <span class:list={["rounded-full bg-gradient-to-br from-sage via-lavender to-terracotta shrink-0", s.outer, s.gap, className]}>
+    {src ? (
+      <img
+        src={src}
+        alt={initials}
+        class:list={["rounded-full object-cover bg-cream", s.inner]}
+        loading="lazy"
+      />
+    ) : (
+      <span class:list={["rounded-full bg-sage-light text-sage-dark flex items-center justify-center font-display font-bold", s.inner, s.text]}>
+        {initials}
+      </span>
+    )}
+  </span>
+) : (
+  <span class:list={["rounded-full shrink-0 overflow-hidden", s.outer, className]}>
+    {src ? (
+      <img
+        src={src}
+        alt={initials}
+        class="w-full h-full rounded-full object-cover"
+        loading="lazy"
+      />
+    ) : (
+      <span class:list={["w-full h-full rounded-full bg-sage-light text-sage-dark flex items-center justify-center font-display font-bold", s.text]}>
+        {initials}
+      </span>
+    )}
+  </span>
+)}

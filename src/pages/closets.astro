@@ -1,5 +1,6 @@
 ---
 import Base from "../layouts/Base.astro";
+import Avatar from "../components/Avatar.astro";
 import { closets, getItemsByCloset } from "../data/mock";
 import { withBase } from "../lib/paths";
 ---
@@ -43,9 +44,7 @@ import { withBase } from "../lib/paths";
 
             <div class="p-5">
               <div class="flex items-center gap-3 mb-3">
-                <span class="w-10 h-10 rounded-full bg-sage-light text-sage-dark flex items-center justify-center text-sm font-display font-bold">
-                  {c.avatar}
-                </span>
+                <Avatar src={c.profileImage} initials={c.avatar} size="sm" />
                 <div>
                   <p class="font-semibold text-sm">{c.name}</p>
                   <p class="text-xs text-muted">@{c.handle} · {c.location}</p>

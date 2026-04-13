@@ -1,5 +1,6 @@
 ---
 import Base from "../../layouts/Base.astro";
+import Avatar from "../../components/Avatar.astro";
 import { items, getCloset, getItemsByCloset } from "../../data/mock";
 import { withBase } from "../../lib/paths";
 import RentButton from "../../components/RentButton";
@@ -92,9 +93,7 @@ const hasMore = allSellerItems.length > 4;
         <!-- Closet owner -->
         {closet && (
           <a href={withBase(`/closet/${closet.id}`)} class="mt-8 p-4 rounded-card border border-border bg-white flex items-center gap-3 hover:shadow-sm transition-shadow">
-            <span class="w-10 h-10 rounded-full bg-sage-light text-sage-dark flex items-center justify-center text-sm font-bold">
-              {closet.avatar}
-            </span>
+            <Avatar src={closet.profileImage} initials={closet.avatar} size="sm" />
             <div class="flex-1 min-w-0">
               <p class="text-sm font-semibold">{closet.name}</p>
               <p class="text-xs text-muted truncate">@{closet.handle} · {closet.location}</p>
